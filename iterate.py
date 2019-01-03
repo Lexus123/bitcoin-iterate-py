@@ -7,20 +7,6 @@ client = MongoClient('localhost', 27017)
 db = client.iterate
 col = db.utxo
 
-# AGE LISTS
-zero_day = [0, 86400]
-day_week = [86400, 604800]
-week_month = [604800, 2628002]
-month_threemonth = [2628002, 7884006]
-threemonth_sixmonth = [7884006, 15768012]
-sixmonth_year = [15768012, 31536024]
-year_onehalfyear = [31536024, 47304036]
-onehalfyear_twoyear = [47304036, 63072048]
-twoyear_threeyear = [63072048, 94608072]
-threeyear_fouryear = [94608072, 126144096]
-fouryear_fiveyear = [126144096, 157680120]
-fiveyear_sixyear = [157680120, 189216144]
-
 # CREATE LIST FOR ALL THE JSON
 rawutxolist = []
 
@@ -35,6 +21,10 @@ for utxo in bitcoiniterateoutput:
 # GET THE FIRST UTXO FROM RAW DATA
 firstutxo = rawutxolist[0]
 
+# THE FIRST BLOCKHEIGHT AND TIMESTAMP OR THE FROM PREVIOUS UTXO
+previousheight = firstutxo["blockheight"]
+previoustimestamp = firstutxo["blocktimestamp"]
+
 # APPEND A UTXO TO TRIGGER THE END OF LOOP
 rawutxolist.append({'blockheight': 0, 'blocktimestamp': 0, 'utxoage': 0, 'utxosatoshis': 0})
 
@@ -46,17 +36,46 @@ singleblockdata = {
     "blockheight": firstutxo["blockheight"],
     "blocktimestamp": firstutxo["blocktimestamp"],
     "totalamount": 0,
-    "totalutxos": 0
+    "totalutxos": 0,
+    "youngerthenday": 0,
+    "youngerthenweek": 0,
+    "youngerthenmonth": 0,
+    "youngerthenthreemonth": 0,
+    "youngerthensixmonth": 0,
+    "youngerthenyear": 0,
+    "youngerthenonehalfyear": 0,
+    "youngerthentwoyear": 0,
+    "youngerthenthreeyear": 0,
+    "youngerthenfouryear": 0,
+    "youngerthenfiveyear": 0,
+    "youngerthensixyear": 0,
+    "olderthensexyear": 0
 }
 
-# THE FIRST BLOCKHEIGHT AND TIMESTAMP OR THE FROM PREVIOUS UTXO
-previousheight = firstutxo["blockheight"]
-previoustimestamp = firstutxo["blocktimestamp"]
+# AGE LISTS SECONDS
+day = 86400
+week = 604800
+month = 2628002
+threemonth = 7884006
+sixmonth = 15768012
+year = 31536024
+onehalfyear = 47304036
+twoyear = 63072048
+threeyear = 94608072
+fouryear = 126144096
+fiveyear = 157680120
+sixyear = 189216144
 
+# LOOP THROUGH
 for utxo in rawutxolist:
     if utxo["blockheight"] == previousheight:
         singleblockdata["totalamount"] = singleblockdata["totalamount"] + (utxo["utxosatoshis"] / 1000000)
         singleblockdata["totalutxos"] = singleblockdata["totalutxos"] + 1
+        
+        if utxo["utxoage"] <= day:
+            singleblockdata["youngerthenday"] = singleblockdata["youngerthenday"] + 1
+        elif day < utxo["utxoage"] <= week:
+            singleblockdata["youngerthenweek"] = singleblockdata["youngerthenweek"] + 1
     else:
         utxodata.append(singleblockdata)
 
