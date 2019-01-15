@@ -6,7 +6,7 @@ from datetime import datetime
 # INIT ALL MONGODB STUFF
 client = MongoClient('localhost', 27017)
 db = client.iterate
-col = db.utxomore
+col = db.utxotenplus
 
 # CREATE LIST FOR ALL THE JSON
 rawutxolist = []
@@ -50,7 +50,8 @@ singleblockdata = {
     "nuytfouryear": 0,
     "nuytsixyear": 0,
     "nuyteightyear": 0,
-    "nuoteightyear": 0,
+    "nuyttenyear": 0,
+    "nuottenyear": 0,
     "puytday": 0,
     "puytweek": 0,
     "puytmonth": 0,
@@ -63,7 +64,8 @@ singleblockdata = {
     "puytfouryear": 0,
     "puytsixyear": 0,
     "puyteightyear": 0,
-    "puoteightyear": 0,
+    "puyttenyear": 0,
+    "puottenyear": 0,
     "ncytday": 0,
     "ncytweek": 0,
     "ncytmonth": 0,
@@ -76,7 +78,8 @@ singleblockdata = {
     "ncytfouryear": 0,
     "ncytsixyear": 0,
     "ncyteightyear": 0,
-    "ncoteightyear": 0,
+    "ncyttenyear": 0,
+    "ncottenyear": 0,
     "pcytday": 0,
     "pcytweek": 0,
     "pcytmonth": 0,
@@ -89,7 +92,8 @@ singleblockdata = {
     "pcytfouryear": 0,
     "pcytsixyear": 0,
     "pcyteightyear": 0,
-    "pcoteightyear": 0
+    "pcyttenyear": 0,
+    "pcottenyear": 0
 }
 
 # AGE LISTS SECONDS
@@ -105,6 +109,7 @@ threeyear = 94608072
 fouryear = 126144096
 sixyear = 189216144
 eightyear = 252288192
+tenyear = 315360240
 
 print("JUST BEFORE PYTHON LOOP: ", datetime.now())
 
@@ -150,9 +155,12 @@ for utxo in rawutxolist:
         elif sixyear < utxo["utxoage"] <= eightyear:
             singleblockdata["nuyteightyear"] = singleblockdata["nuyteightyear"] + 1
             singleblockdata["ncyteightyear"] = singleblockdata["ncyteightyear"] + (utxo["utxosatoshis"] / 100000000)
-        elif eightyear < utxo["utxoage"]:
-            singleblockdata["nuoteightyear"] = singleblockdata["nuoteightyear"] + 1
-            singleblockdata["ncoteightyear"] = singleblockdata["ncoteightyear"] + (utxo["utxosatoshis"] / 100000000)
+        elif eightyear < utxo["utxoage"] <= tenyear:
+            singleblockdata["nuyttenyear"] = singleblockdata["nuyttenyear"] + 1
+            singleblockdata["ncyttenyear"] = singleblockdata["ncyttenyear"] + (utxo["utxosatoshis"] / 100000000)
+        elif tenyear < utxo["utxoage"]:
+            singleblockdata["nuottenyear"] = singleblockdata["nuottenyear"] + 1
+            singleblockdata["ncottenyear"] = singleblockdata["ncottenyear"] + (utxo["utxosatoshis"] / 100000000)
     else:
         # SOME CALC FOR PERCENTAGE OF TOTAL
 
@@ -207,7 +215,8 @@ for utxo in rawutxolist:
             "nuytfouryear": 0,
             "nuytsixyear": 0,
             "nuyteightyear": 0,
-            "nuoteightyear": 0,
+            "nuyttenyear": 0,
+            "nuottenyear": 0,
             "ncytday": 0,
             "ncytweek": 0,
             "ncytmonth": 0,
@@ -220,7 +229,8 @@ for utxo in rawutxolist:
             "ncytfouryear": 0,
             "ncytsixyear": 0,
             "ncyteightyear": 0,
-            "ncoteightyear": 0,
+            "ncyttenyear": 0,
+            "ncottenyear": 0
         }
 
         if utxo["utxoage"] <= day:
@@ -259,9 +269,12 @@ for utxo in rawutxolist:
         elif sixyear < utxo["utxoage"] <= eightyear:
             singleblockdata["nuyteightyear"] = singleblockdata["nuyteightyear"] + 1
             singleblockdata["ncyteightyear"] = singleblockdata["ncyteightyear"] + (utxo["utxosatoshis"] / 100000000)
-        elif eightyear < utxo["utxoage"]:
-            singleblockdata["nuoteightyear"] = singleblockdata["nuoteightyear"] + 1
-            singleblockdata["ncoteightyear"] = singleblockdata["ncoteightyear"] + (utxo["utxosatoshis"] / 100000000)
+        elif eightyear < utxo["utxoage"] <= tenyear:
+            singleblockdata["nuyttenyear"] = singleblockdata["nuyttenyear"] + 1
+            singleblockdata["ncyttenyear"] = singleblockdata["ncyttenyear"] + (utxo["utxosatoshis"] / 100000000)
+        elif tenyear < utxo["utxoage"]:
+            singleblockdata["nuottenyear"] = singleblockdata["nuottenyear"] + 1
+            singleblockdata["ncottenyear"] = singleblockdata["ncottenyear"] + (utxo["utxosatoshis"] / 100000000)
 
     previousheight = utxo["blockheight"]
     previoustimestamp = utxo["blocktimestamp"]
