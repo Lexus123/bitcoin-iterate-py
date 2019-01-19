@@ -179,7 +179,8 @@ for utxo in rawutxolist:
         singleblockdata["puytfouryear"] = singleblockdata["nuytfouryear"] / totalutxos
         singleblockdata["puytsixyear"] = singleblockdata["nuytsixyear"] / totalutxos
         singleblockdata["puyteightyear"] = singleblockdata["nuyteightyear"] / totalutxos
-        singleblockdata["puoteightyear"] = singleblockdata["nuoteightyear"] / totalutxos
+        singleblockdata["puyttenyear"] = singleblockdata["nuyttenyear"] / totalutxos
+        singleblockdata["puottenyear"] = singleblockdata["nuottenyear"] / totalutxos
 
         singleblockdata["pcytday"] = singleblockdata["ncytday"] / totalcoins
         singleblockdata["pcytweek"] = singleblockdata["ncytweek"] / totalcoins
@@ -193,7 +194,8 @@ for utxo in rawutxolist:
         singleblockdata["pcytfouryear"] = singleblockdata["ncytfouryear"] / totalcoins
         singleblockdata["pcytsixyear"] = singleblockdata["ncytsixyear"] / totalcoins
         singleblockdata["pcyteightyear"] = singleblockdata["ncyteightyear"] / totalcoins
-        singleblockdata["pcoteightyear"] = singleblockdata["ncoteightyear"] / totalcoins
+        singleblockdata["pcyttenyear"] = singleblockdata["ncyttenyear"] / totalcoins
+        singleblockdata["pcottenyear"] = singleblockdata["ncottenyear"] / totalcoins
 
         utxodata.append(singleblockdata)
 
